@@ -1,0 +1,11 @@
+{
+  "models": [
+    "https://deepmind.google/models/model-cards/gemini-4-hydrogen/"
+  ],
+  "tools": [
+    "https://github.com/openai/codex-security"
+  ],
+  "interviews": [
+    "https://aiweekly.co/alerts/openai-ships-daybreak-red-team-and-defense-factory-agents"
+  ]
+}
