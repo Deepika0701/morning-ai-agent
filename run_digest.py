@@ -160,9 +160,10 @@ Return ONLY a valid JSON object (no markdown fences outside the JSON) matching t
     if interaction.status != "completed":
         raise RuntimeError(f"Antigravity agent failed with status: {interaction.status}")
 
-    raw_text = interaction.outputs[-1].text.strip()
-    # Strip optional ```json ... ``` wrapper if present
-    cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw_text, flags=re.DOTALL)
+    raw_text = interaction.output_text.strip()
+    # Extract the JSON object cleanly even if wrapped in markdown fences or extra prose
+    match = re.search(r"\{.*\}", raw_text, flags=re.DOTALL)
+    cleaned = match.group(0) if match else raw_text
     return json.loads(cleaned)
 
 
