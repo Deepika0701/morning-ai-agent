@@ -1,14 +1,17 @@
 {
   "models": [
     "https://deepmind.google/models/model-cards/gemini-4-hydrogen/",
-    "https://huggingface.co/collections/runwayml/praxis-1"
+    "https://huggingface.co/collections/runwayml/praxis-1",
+    "https://huggingface.co/papers/2611.17336"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
-    "https://github.com/ghuntley/overalls"
+    "https://github.com/ghuntley/overalls",
+    "https://github.com/ggml-org/llama.cpp"
   ],
   "interviews": [
     "https://aiweekly.co/alerts/openai-ships-daybreak-red-team-and-defense-factory-agents",
-    "https://cryptobriefing.com/anthropic-dario-amodei-compute-dilemma/"
+    "https://cryptobriefing.com/anthropic-dario-amodei-compute-dilemma/",
+    "https://www.youtube.com/shorts/SeGUXN8XIu8"
   ]
 }
