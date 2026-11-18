@@ -251,4 +251,32 @@ def send_email(subject: str, html_body: str) -> None:
             msg.attach(MIMEText(plain_fallback, "plain", "utf-8"))
             msg.attach(MIMEText(html_body, "html", "utf-8"))
 
-            server.sendmail(sender, [recipient], msg
+            server.sendmail(sender, [recipient], msg.as_string())
+            print(f" -> Delivered to: {recipient}")
+
+
+def main() -> None:
+    history = load_history()
+    hf_candidates = fetch_unseen_hf_models(history.get("models", []))
+    news_candidates = fetch_rss_items(AI_NEWS_FEEDS, history.get("tools", []), limit=10)
+    tool_candidates = fetch_rss_items(AI_TOOLS_FEEDS, history.get("tools", []), limit=10)
+    interview_candidates = fetch_unseen_interviews(history.get("interviews", []))
+
+    result = run_digest_agent(
+        history, hf_candidates, news_candidates, tool_candidates, interview_candidates
+    )
+    send_email(result["subject"], result["html_body"])
+
+    if result.get("selected_model_id"):
+        history.setdefault("models", []).append(result["selected_model_id"])
+    if result.get("selected_tool_id"):
+        history.setdefault("tools", []).append(result["selected_tool_id"])
+    if result.get("selected_interview_id"):
+        history.setdefault("interviews", []).append(result["selected_interview_id"])
+
+    save_history(history)
+    print("Updated seen_history.json successfully.")
+
+
+if __name__ == "__main__":
+    main()
