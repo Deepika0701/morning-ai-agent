@@ -135,6 +135,51 @@ def fetch_unseen_interviews(seen_interviews: list[str], limit: int = 3) -> list[
     return interviews
 
 
+def parse_json_response(raw_text: str) -> dict:
+    """Safely extracts and parses JSON even if wrapped in markdown fences."""
+    cleaned = raw_text.strip()
+    match = re.search(r"\{.*\}", cleaned, flags=re.DOTALL)
+    if match:
+        cleaned = match.group(0)
+    return json.loads(cleaned)
+
+
+def call_openai_compatible(
+    endpoint_url: str,
+    api_key: str,
+    model_name: str,
+    prompt: str,
+    use_json_mode: bool = True,
+) -> dict:
+    """Calls Groq, OpenRouter, or GitHub Models via standard OpenAI-compatible REST."""
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": model_name,
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "You are a Principal AI Systems Architect. "
+                    "Respond ONLY with a valid JSON object matching the user's schema. "
+                    "Do not include any prose outside the JSON."
+                ),
+            },
+            {"role": "user", "content": prompt},
+        ],
+        "temperature": 0.3,
+    }
+    if use_json_mode:
+        payload["response_format"] = {"type": "json_object"}
+
+    resp = requests.post(endpoint_url, headers=headers, json=payload, timeout=90)
+    resp.raise_for_status()
+    raw_text = resp.json()["choices"][0]["message"]["content"]
+    return parse_json_response(raw_text)
+
+
 def run_digest_agent(
     history: dict,
     hf_candidates: list[dict],
@@ -142,8 +187,7 @@ def run_digest_agent(
     tool_candidates: list[dict],
     interview_candidates: list[dict],
 ) -> dict:
-    """Synthesizes the morning briefing using 100% Free-Tier Gemini models with retry & fallback."""
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    """Prioritizes Free Open-Source Models (Groq -> OpenRouter -> GitHub Models) with Gemini last."""
     today_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
 
     prompt = f"""
@@ -194,32 +238,76 @@ Return ONLY a valid JSON object matching this exact schema:
 }}
 """
 
-    # 100% Free-Tier Gemini model cascade with retry on transient 503 overload
-    free_tier_models = [
-        "gemini-3.8-flash",
-        "gemini-3.8-flash",       # Retry once after backoff if 503 spike occurs
-        "gemini-3.6-flash",
-        "gemini-3.5-flash-lite",
-        "gemini-3.1-flash-lite",
-    ]
+    # --- PRIORITY 1: Groq Free Open-Source Models (Fastest, Free Tier) ---
+    groq_key = os.environ.get("GROQ_API_KEY", "").strip()
+    if groq_key:
+        for oss_model in ("llama-3.3-70b-versatile", "qwen-qwq-32b"):
+            try:
+                print(f"[Priority 1 - Groq Open-Source] Querying {oss_model}...")
+                return call_openai_compatible(
+                    endpoint_url="https://api.groq.com/openai/v1/chat/completions",
+                    api_key=groq_key,
+                    model_name=oss_model,
+                    prompt=prompt,
+                    use_json_mode=True,
+                )
+            except Exception as exc:
+                print(f"[Warn] Groq {oss_model} failed: {exc}")
 
-    for attempt_idx, model_name in enumerate(free_tier_models):
-        try:
-            print(f"Attempt {attempt_idx + 1}: Querying {model_name} (Free Tier)...")
-            response = client.models.generate_content(
-                model=model_name,
-                contents=prompt,
-                config={"response_mime_type": "application/json"},
-            )
-            raw_text = response.text.strip()
-            match = re.search(r"\{.*\}", raw_text, flags=re.DOTALL)
-            cleaned = match.group(0) if match else raw_text
-            return json.loads(cleaned)
-        except Exception as exc:
-            print(f"[Warn] {model_name} attempt failed: {exc}")
-            time.sleep(15)
+    # --- PRIORITY 2: OpenRouter Free Open-Source Models ---
+    openrouter_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    if openrouter_key:
+        for or_model in (
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "qwen/qwen-2.5-72b-instruct:free",
+            "deepseek/deepseek-chat-v3-0324:free",
+        ):
+            try:
+                print(f"[Priority 2 - OpenRouter Open-Source] Querying {or_model}...")
+                return call_openai_compatible(
+                    endpoint_url="https://openrouter.ai/api/v1/chat/completions",
+                    api_key=openrouter_key,
+                    model_name=or_model,
+                    prompt=prompt,
+                    use_json_mode=False,
+                )
+            except Exception as exc:
+                print(f"[Warn] OpenRouter {or_model} failed: {exc}")
 
-    raise RuntimeError("All Free-Tier Gemini attempts failed.")
+    # --- PRIORITY 3: GitHub Models Free Open-Source (Uses built-in GITHUB_TOKEN) ---
+    github_token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if github_token:
+        for gh_model in ("Meta-Llama-3.3-70B-Instruct", "DeepSeek-R1"):
+            try:
+                print(f"[Priority 3 - GitHub Models Open-Source] Querying {gh_model}...")
+                return call_openai_compatible(
+                    endpoint_url="https://models.inference.ai.azure.com/chat/completions",
+                    api_key=github_token,
+                    model_name=gh_model,
+                    prompt=prompt,
+                    use_json_mode=False,
+                )
+            except Exception as exc:
+                print(f"[Warn] GitHub Models {gh_model} failed: {exc}")
+
+    # --- PRIORITY 4 (LAST OPTION): Google AI Studio Free-Tier Gemini ---
+    gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if gemini_key:
+        client = genai.Client(api_key=gemini_key)
+        for model_name in ("gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"):
+            try:
+                print(f"[Priority 4 - Google Fallback] Querying {model_name}...")
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config={"response_mime_type": "application/json"},
+                )
+                return parse_json_response(response.text)
+            except Exception as exc:
+                print(f"[Warn] Google {model_name} failed: {exc}")
+                time.sleep(10)
+
+    raise RuntimeError("All Open-Source (Groq, OpenRouter, GitHub Models) and Gemini attempts failed.")
 
 
 def send_email(subject: str, html_body: str) -> None:
