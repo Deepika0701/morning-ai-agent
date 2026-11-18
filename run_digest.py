@@ -136,12 +136,63 @@ def fetch_unseen_interviews(seen_interviews: list[str], limit: int = 3) -> list[
 
 
 def parse_json_response(raw_text: str) -> dict:
-    """Safely extracts and parses JSON even if wrapped in markdown fences."""
-    cleaned = raw_text.strip()
+    """Safely extracts and parses JSON even if wrapped in markdown fences or <think> tags."""
+    cleaned = re.sub(r"<think>.*?</think>", "", raw_text, flags=re.DOTALL).strip()
     match = re.search(r"\{.*\}", cleaned, flags=re.DOTALL)
     if match:
         cleaned = match.group(0)
     return json.loads(cleaned)
+
+
+def discover_openrouter_free_models(api_key: str, limit: int = 5) -> list[str]:
+    """Queries OpenRouter's live catalog for currently active :free text models."""
+    try:
+        resp = requests.get(
+            "https://openrouter.ai/api/v1/models",
+            headers={"Authorization": f"Bearer {api_key}"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        models = resp.json().get("data", [])
+        free_ids = []
+        for m in models:
+            mid = m.get("id", "")
+            pricing = m.get("pricing", {})
+            is_free = mid.endswith(":free") or (
+                str(pricing.get("prompt")) == "0" and str(pricing.get("completion")) == "0"
+            )
+            if is_free and not any(skip in mid.lower() for skip in ("vision", "embed", "vl-", "guard")):
+                free_ids.append(mid)
+
+        # Rank strong open-source families first (Qwen, Llama, DeepSeek, Gemma, Mistral)
+        preferred = ("qwen", "llama", "deepseek", "gemma", "mistral", "openrouter/free")
+        free_ids.sort(key=lambda x: next((i for i, k in enumerate(preferred) if k in x.lower()), 99))
+        return free_ids[:limit]
+    except Exception as exc:
+        print(f"[Warn] OpenRouter model discovery failed: {exc}")
+        return ["openrouter/free"]
+
+
+def discover_groq_models(api_key: str, limit: int = 4) -> list[str]:
+    """Queries Groq's live /models endpoint so retired slugs never cause 404s."""
+    try:
+        resp = requests.get(
+            "https://api.groq.com/openai/v1/models",
+            headers={"Authorization": f"Bearer {api_key}"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        models = [m.get("id", "") for m in resp.json().get("data", [])]
+        chat_models = [
+            mid for mid in models
+            if mid and not any(skip in mid.lower() for skip in ("whisper", "guard", "tts", "embed", "playai"))
+        ]
+        preferred = ("llama", "qwen", "deepseek", "gemma", "mistral")
+        chat_models.sort(key=lambda x: next((i for i, k in enumerate(preferred) if k in x.lower()), 99))
+        return chat_models[:limit]
+    except Exception as exc:
+        print(f"[Warn] Groq model discovery failed: {exc}")
+        return []
 
 
 def call_openai_compatible(
@@ -149,13 +200,16 @@ def call_openai_compatible(
     api_key: str,
     model_name: str,
     prompt: str,
-    use_json_mode: bool = True,
+    extra_headers: dict | None = None,
 ) -> dict:
-    """Calls Groq, OpenRouter, or GitHub Models via standard OpenAI-compatible REST."""
+    """Calls OpenRouter, Groq, or GitHub Models via standard OpenAI-compatible REST."""
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
     }
+    if extra_headers:
+        headers.update(extra_headers)
+
     payload = {
         "model": model_name,
         "messages": [
@@ -164,18 +218,17 @@ def call_openai_compatible(
                 "content": (
                     "You are a Principal AI Systems Architect. "
                     "Respond ONLY with a valid JSON object matching the user's schema. "
-                    "Do not include any prose outside the JSON."
+                    "Do not include markdown fences or any text outside the JSON."
                 ),
             },
             {"role": "user", "content": prompt},
         ],
         "temperature": 0.3,
     }
-    if use_json_mode:
-        payload["response_format"] = {"type": "json_object"}
 
     resp = requests.post(endpoint_url, headers=headers, json=payload, timeout=90)
-    resp.raise_for_status()
+    if not resp.ok:
+        raise RuntimeError(f"{resp.status_code} {resp.reason}: {resp.text[:300]}")
     raw_text = resp.json()["choices"][0]["message"]["content"]
     return parse_json_response(raw_text)
 
@@ -187,7 +240,7 @@ def run_digest_agent(
     tool_candidates: list[dict],
     interview_candidates: list[dict],
 ) -> dict:
-    """Prioritizes Free Open-Source Models (Groq -> OpenRouter -> GitHub Models) with Gemini last."""
+    """Prioritizes Free Open-Source Models (OpenRouter -> Groq -> GitHub Models) with Gemini last."""
     today_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
 
     prompt = f"""
@@ -214,157 +267,4 @@ Your reader is a software engineer who cares deeply about **practical implementa
 Using the live pre-fetched candidates above:
 1. **Top AI News (Past 24 Hours):** Summarize 4-5 major releases, open-source drops, or infrastructure breakthroughs with direct source links from the news candidates above.
 2. **AI Leader & Researcher Radar:** Analyze the pre-fetched interviews above to extract **emerging architectural patterns, agentic workflows, and upcoming tooling concepts** being discussed, and explain how an engineer can implement those concepts today.
-3. **Standout AI Tool / Engineering Concept of the Day:** Pick 1 high-impact NEW AI developer tool, framework, or repo from the tool/news candidates above NOT in `seen_history.tools`. Break down:
-   - **Under the Hood:** Exact architecture and how it works technically.
-   - **Quick Implementation Guide:** Concrete setup commands, CLI snippet, or minimal Python/config code showing how to wire it up.
-   - **3 Real-World Engineering Use Cases:** Specific problems it solves, inputs/outputs, and when to use it vs. existing alternatives.
-4. **Standout AI Model / Paper of the Day:** Pick 1 standout NEW model or architecture from the Hugging Face candidates above NOT in `seen_history.models`. Break down:
-   - **Specs & Architecture:** How it works, parameter scale/efficiency, and key benchmark or capability highlights.
-   - **How to Run / Integrate:** Concrete Hugging Face / Python / API invocation snippet showing how a developer would test or integrate it.
-   - **3 Concrete Use Cases:** Specific production workflows where this model/technique shines.
-
-### 4. REQUIRED OUTPUT FORMAT
-Return ONLY a valid JSON object matching this exact schema:
-{{
-  "subject": "String: Crisp technical subject line naming today's featured tool/concept & model",
-  "selected_model_id": "String: Unique ID or URL of the featured model to append to seen_history",
-  "selected_tool_id": "String: Unique repo name or URL of the featured tool to append to seen_history",
-  "selected_interview_id": "String: Video ID or URL of the featured interview to append to seen_history",
-  "html_body": "String: Clean, responsive, inline-CSS styled HTML email (max-width 680px, readable code blocks with monospace font & dark/light contrast, clear headings) containing these 4 sections:
-    1. ⚡ 2-Minute Daily AI News Flash (4-5 crisp bullets with source links)
-    2. 🎙️ AI Leader Radar: Emerging Concepts & How to Apply Them
-    3. 🛠️ Deep Dive: Tool / Concept Implementation & Use Cases (Architecture + Code/CLI Quickstart + 3 Concrete Use Cases)
-    4. 🧠 Deep Dive: Standout Model Implementation & Use Cases (Specs + Run/API Snippet + 3 Concrete Use Cases)"
-}}
-"""
-
-    # --- PRIORITY 1: Groq Free Open-Source Models (Fastest, Free Tier) ---
-    groq_key = os.environ.get("GROQ_API_KEY", "").strip()
-    if groq_key:
-        for oss_model in ("llama-3.3-70b-versatile", "qwen-qwq-32b"):
-            try:
-                print(f"[Priority 1 - Groq Open-Source] Querying {oss_model}...")
-                return call_openai_compatible(
-                    endpoint_url="https://api.groq.com/openai/v1/chat/completions",
-                    api_key=groq_key,
-                    model_name=oss_model,
-                    prompt=prompt,
-                    use_json_mode=True,
-                )
-            except Exception as exc:
-                print(f"[Warn] Groq {oss_model} failed: {exc}")
-
-    # --- PRIORITY 2: OpenRouter Free Open-Source Models ---
-    openrouter_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
-    if openrouter_key:
-        for or_model in (
-            "meta-llama/llama-3.3-70b-instruct:free",
-            "qwen/qwen-2.5-72b-instruct:free",
-            "deepseek/deepseek-chat-v3-0324:free",
-        ):
-            try:
-                print(f"[Priority 2 - OpenRouter Open-Source] Querying {or_model}...")
-                return call_openai_compatible(
-                    endpoint_url="https://openrouter.ai/api/v1/chat/completions",
-                    api_key=openrouter_key,
-                    model_name=or_model,
-                    prompt=prompt,
-                    use_json_mode=False,
-                )
-            except Exception as exc:
-                print(f"[Warn] OpenRouter {or_model} failed: {exc}")
-
-    # --- PRIORITY 3: GitHub Models Free Open-Source (Uses built-in GITHUB_TOKEN) ---
-    github_token = os.environ.get("GITHUB_TOKEN", "").strip()
-    if github_token:
-        for gh_model in ("Meta-Llama-3.3-70B-Instruct", "DeepSeek-R1"):
-            try:
-                print(f"[Priority 3 - GitHub Models Open-Source] Querying {gh_model}...")
-                return call_openai_compatible(
-                    endpoint_url="https://models.inference.ai.azure.com/chat/completions",
-                    api_key=github_token,
-                    model_name=gh_model,
-                    prompt=prompt,
-                    use_json_mode=False,
-                )
-            except Exception as exc:
-                print(f"[Warn] GitHub Models {gh_model} failed: {exc}")
-
-    # --- PRIORITY 4 (LAST OPTION): Google AI Studio Free-Tier Gemini ---
-    gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
-    if gemini_key:
-        client = genai.Client(api_key=gemini_key)
-        for model_name in ("gemini-3.8-flash", "gemini-3.6-flash", "gemini-3.5-flash-lite"):
-            try:
-                print(f"[Priority 4 - Google Fallback] Querying {model_name}...")
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config={"response_mime_type": "application/json"},
-                )
-                return parse_json_response(response.text)
-            except Exception as exc:
-                print(f"[Warn] Google {model_name} failed: {exc}")
-                time.sleep(10)
-
-    raise RuntimeError("All Open-Source (Groq, OpenRouter, GitHub Models) and Gemini attempts failed.")
-
-
-def send_email(subject: str, html_body: str) -> None:
-    sender = os.environ["GMAIL_USER"].strip()
-    raw_recipients = os.environ.get("RECIPIENT_EMAIL", sender)
-    app_password = os.environ["GMAIL_APP_PASSWORD"].strip()
-
-    recipient_list = [
-        addr.strip()
-        for addr in re.split(r"[,;\s\n]+", raw_recipients)
-        if addr.strip() and "@" in addr
-    ]
-
-    plain_fallback = re.sub(r"<[^>]+>", " ", html_body)
-    plain_fallback = re.sub(r"\s+", " ", plain_fallback).strip()
-
-    print(f"Sending digest to {len(recipient_list)} recipient(s): {recipient_list}")
-
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(sender, app_password)
-        for recipient in recipient_list:
-            msg = MIMEMultipart("alternative")
-            msg["Subject"] = subject
-            msg["From"] = f"Morning AI Agent <{sender}>"
-            msg["To"] = recipient
-            msg["Date"] = formatdate(localtime=True)
-            msg["Message-ID"] = make_msgid(domain="gmail.com")
-
-            msg.attach(MIMEText(plain_fallback, "plain", "utf-8"))
-            msg.attach(MIMEText(html_body, "html", "utf-8"))
-
-            server.sendmail(sender, [recipient], msg.as_string())
-            print(f" -> Delivered to: {recipient}")
-
-
-def main() -> None:
-    history = load_history()
-    hf_candidates = fetch_unseen_hf_models(history.get("models", []))
-    news_candidates = fetch_rss_items(AI_NEWS_FEEDS, history.get("tools", []), limit=10)
-    tool_candidates = fetch_rss_items(AI_TOOLS_FEEDS, history.get("tools", []), limit=10)
-    interview_candidates = fetch_unseen_interviews(history.get("interviews", []))
-
-    result = run_digest_agent(
-        history, hf_candidates, news_candidates, tool_candidates, interview_candidates
-    )
-    send_email(result["subject"], result["html_body"])
-
-    if result.get("selected_model_id"):
-        history.setdefault("models", []).append(result["selected_model_id"])
-    if result.get("selected_tool_id"):
-        history.setdefault("tools", []).append(result["selected_tool_id"])
-    if result.get("selected_interview_id"):
-        history.setdefault("interviews", []).append(result["selected_interview_id"])
-
-    save_history(history)
-    print("Updated seen_history.json successfully.")
-
-
-if __name__ == "__main__":
-    main()
+3. **Standout
