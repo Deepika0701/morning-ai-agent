@@ -2,6 +2,7 @@ import json
 import os
 import re
 import smtplib
+import time
 from datetime import datetime, timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -29,6 +30,13 @@ AI_NEWS_FEEDS = [
     "https://techcrunch.com/category/artificial-intelligence/feed/",
     "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
     "https://huggingface.co/blog/feed.xml",
+]
+
+AI_TOOLS_FEEDS = [
+    "https://hnrss.org/show?q=AI+OR+LLM+OR+agent+OR+MCP",
+    "https://www.producthunt.com/feed?category=artificial-intelligence",
+    "https://mshibanami.github.io/GitHubTrendingRSS/daily/python.xml",
+    "https://mshibanami.github.io/GitHubTrendingRSS/daily/typescript.xml",
 ]
 
 
@@ -70,25 +78,25 @@ def fetch_unseen_hf_models(seen_models: list[str], limit: int = 8) -> list[dict]
     return candidates
 
 
-def fetch_live_news_and_tools(seen_tools: list[str], limit: int = 12) -> list[dict]:
-    """Fetches latest AI news & GitHub/ProductHunt tool launches via free RSS feeds."""
+def fetch_rss_items(feed_urls: list[str], seen_urls: list[str], limit: int = 10) -> list[dict]:
+    """Fetches fresh unseen items from a list of RSS/Atom feeds."""
     items = []
-    for rss_url in AI_NEWS_FEEDS:
+    for rss_url in feed_urls:
         try:
             feed = feedparser.parse(rss_url)
-            for entry in feed.entries[:4]:
+            for entry in feed.entries[:5]:
                 link = getattr(entry, "link", "")
-                if not link or link in seen_tools:
+                if not link or link in seen_urls:
                     continue
                 items.append({
                     "title": getattr(entry, "title", ""),
                     "url": link,
-                    "summary": re.sub(r"<[^>]+>", " ", getattr(entry, "summary", ""))[:350],
+                    "summary": re.sub(r"<[^>]+>", " ", getattr(entry, "summary", ""))[:400].strip(),
                 })
                 if len(items) >= limit:
                     return items
         except Exception as exc:
-            print(f"[Warn] News RSS fetch failed for {rss_url}: {exc}")
+            print(f"[Warn] RSS fetch failed for {rss_url}: {exc}")
     return items
 
 
@@ -104,7 +112,7 @@ def fetch_unseen_interviews(seen_interviews: list[str], limit: int = 3) -> list[
                 if not video_id or video_id in seen_interviews:
                     continue
 
-                transcript_snippet = "Transcript unavailable; rely on title and web context."
+                transcript_snippet = "Transcript unavailable; analyze based on title and channel focus."
                 try:
                     transcript = YouTubeTranscriptApi.get_transcript(video_id, languages=["en"])
                     full_text = " ".join(chunk["text"] for chunk in transcript[40:350])
@@ -131,13 +139,11 @@ def run_digest_agent(
     history: dict,
     hf_candidates: list[dict],
     news_candidates: list[dict],
+    tool_candidates: list[dict],
     interview_candidates: list[dict],
 ) -> dict:
-    """Runs daily AI intelligence synthesis with automatic free-tier fallback."""
-    client = genai.Client(
-        api_key=os.environ["GEMINI_API_KEY"],
-        http_options={"api_version": "v1beta"},
-    )
+    """Synthesizes the morning briefing using 100% Free-Tier Gemini models with retry & fallback."""
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     today_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
 
     prompt = f"""
@@ -148,30 +154,33 @@ Your reader is a software engineer who cares deeply about **practical implementa
 {json.dumps(history, indent=2)}
 
 ### 2. PRE-FETCHED LIVE CANDIDATES FROM TODAY
-- Live AI News & Tool Launches (RSS/HN/TechCrunch/HF Blog):
+- Breaking AI News Feeds (Hacker News, TechCrunch, The Verge, Hugging Face Blog):
 {json.dumps(news_candidates, indent=2)}
 
-- Hugging Face Papers/Models Candidates:
+- New AI Tools & Trending Open-Source Repos (Show HN, Product Hunt AI, GitHub Trending):
+{json.dumps(tool_candidates, indent=2)}
+
+- Hugging Face Daily Papers & New Models:
 {json.dumps(hf_candidates, indent=2)}
 
-- Recent AI Leader/Founder Interview Candidates (with transcript excerpts):
+- Recent AI Leader & Researcher Interviews (with transcript excerpts):
 {json.dumps(interview_candidates, indent=2)}
 
-### 3. YOUR RESEARCH & SYNTHESIS TASK
-Using the live feeds above (and Google Search if enabled):
-1. **Top AI News (Past 24 Hours):** Summarize 4-5 major releases, open-source drops, or infrastructure breakthroughs with direct source links.
+### 3. YOUR SYNTHESIS & ENGINEERING BREAKDOWN TASK
+Using the live pre-fetched candidates above:
+1. **Top AI News (Past 24 Hours):** Summarize 4-5 major releases, open-source drops, or infrastructure breakthroughs with direct source links from the news candidates above.
 2. **AI Leader & Researcher Radar:** Analyze the pre-fetched interviews above to extract **emerging architectural patterns, agentic workflows, and upcoming tooling concepts** being discussed, and explain how an engineer can implement those concepts today.
-3. **Standout AI Tool / Engineering Concept of the Day:** Pick 1 high-impact NEW AI developer tool, framework, MCP server, or system design concept NOT in `seen_history.tools`. Break down:
+3. **Standout AI Tool / Engineering Concept of the Day:** Pick 1 high-impact NEW AI developer tool, framework, or repo from the tool/news candidates above NOT in `seen_history.tools`. Break down:
    - **Under the Hood:** Exact architecture and how it works technically.
    - **Quick Implementation Guide:** Concrete setup commands, CLI snippet, or minimal Python/config code showing how to wire it up.
    - **3 Real-World Engineering Use Cases:** Specific problems it solves, inputs/outputs, and when to use it vs. existing alternatives.
-4. **Standout AI Model of the Day:** Pick 1 standout NEW model from the Hugging Face candidates above (or recent major release) NOT in `seen_history.models`. Break down:
-   - **Specs & Deployment:** Parameter count, context window, quantization/VRAM requirements or API pricing, and benchmark highlights.
-   - **How to Run / Integrate:** Exact Hugging Face / Ollama / vLLM / API invocation snippet.
-   - **3 Concrete Use Cases:** Specific production workflows where this model outperforms general-purpose defaults.
+4. **Standout AI Model / Paper of the Day:** Pick 1 standout NEW model or architecture from the Hugging Face candidates above NOT in `seen_history.models`. Break down:
+   - **Specs & Architecture:** How it works, parameter scale/efficiency, and key benchmark or capability highlights.
+   - **How to Run / Integrate:** Concrete Hugging Face / Python / API invocation snippet showing how a developer would test or integrate it.
+   - **3 Concrete Use Cases:** Specific production workflows where this model/technique shines.
 
 ### 4. REQUIRED OUTPUT FORMAT
-Return ONLY a valid JSON object (no markdown fences outside the JSON) matching this exact schema:
+Return ONLY a valid JSON object matching this exact schema:
 {{
   "subject": "String: Crisp technical subject line naming today's featured tool/concept & model",
   "selected_model_id": "String: Unique ID or URL of the featured model to append to seen_history",
@@ -185,31 +194,32 @@ Return ONLY a valid JSON object (no markdown fences outside the JSON) matching t
 }}
 """
 
-    # 1st choice: gemini-3.8-flash with Google Search
-    # 2nd & 3rd choices: ungrounded synthesis over live pre-fetched RSS/HF/YouTube feeds (never hits search 429)
-    attempts = [
-        ("gemini-3.8-flash", {"tools": [{"google_search": {}}]}),
-        ("gemini-3.8-flash", {"response_mime_type": "application/json"}),
-        ("gemini-3.8-flash-lite", {"response_mime_type": "application/json"}),
+    # 100% Free-Tier Gemini model cascade with retry on transient 503 overload
+    free_tier_models = [
+        "gemini-3.8-flash",
+        "gemini-3.8-flash",       # Retry once after backoff if 503 spike occurs
+        "gemini-3.6-flash",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-flash-lite",
     ]
 
-    for model_name, cfg in attempts:
+    for attempt_idx, model_name in enumerate(free_tier_models):
         try:
-            mode = "grounded" if "tools" in cfg else "feed-synthesis"
-            print(f"Querying {model_name} ({mode})...")
+            print(f"Attempt {attempt_idx + 1}: Querying {model_name} (Free Tier)...")
             response = client.models.generate_content(
                 model=model_name,
                 contents=prompt,
-                config=cfg,
+                config={"response_mime_type": "application/json"},
             )
             raw_text = response.text.strip()
             match = re.search(r"\{.*\}", raw_text, flags=re.DOTALL)
             cleaned = match.group(0) if match else raw_text
             return json.loads(cleaned)
         except Exception as exc:
-            print(f"[Warn] {model_name} ({mode}) failed: {exc}")
+            print(f"[Warn] {model_name} attempt failed: {exc}")
+            time.sleep(15)
 
-    raise RuntimeError("All Gemini attempts failed.")
+    raise RuntimeError("All Free-Tier Gemini attempts failed.")
 
 
 def send_email(subject: str, html_body: str) -> None:
@@ -241,29 +251,4 @@ def send_email(subject: str, html_body: str) -> None:
             msg.attach(MIMEText(plain_fallback, "plain", "utf-8"))
             msg.attach(MIMEText(html_body, "html", "utf-8"))
 
-            server.sendmail(sender, [recipient], msg.as_string())
-            print(f" -> Delivered to: {recipient}")
-
-
-def main() -> None:
-    history = load_history()
-    hf_candidates = fetch_unseen_hf_models(history.get("models", []))
-    news_candidates = fetch_live_news_and_tools(history.get("tools", []))
-    interview_candidates = fetch_unseen_interviews(history.get("interviews", []))
-
-    result = run_digest_agent(history, hf_candidates, news_candidates, interview_candidates)
-    send_email(result["subject"], result["html_body"])
-
-    if result.get("selected_model_id"):
-        history.setdefault("models", []).append(result["selected_model_id"])
-    if result.get("selected_tool_id"):
-        history.setdefault("tools", []).append(result["selected_tool_id"])
-    if result.get("selected_interview_id"):
-        history.setdefault("interviews", []).append(result["selected_interview_id"])
-
-    save_history(history)
-    print("Updated seen_history.json successfully.")
-
-
-if __name__ == "__main__":
-    main()
+            server.sendmail(sender, [recipient], msg
