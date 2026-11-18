@@ -2,8 +2,8 @@ name: Daily Morning AI Digest
 
 on:
   schedule:
-    # 01:17 UTC = 06:47 AM IST (avoids the :00/:30 GitHub cron queue bottleneck)
-    - cron: '40 5 * * *'
+    # 01:17 UTC = 06:47 AM IST (lands in your inbox right around 7:00 AM IST)
+    - cron: '17 1 * * *'
   workflow_dispatch:
 
 permissions:
