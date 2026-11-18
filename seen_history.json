@@ -1,20 +1,35 @@
 {
   "models": [
-    "https://deepmind.google/models/model-cards/gemini-4-hydrogen/",
-    "https://huggingface.co/collections/runwayml/praxis-1",
-    "https://huggingface.co/papers/2611.17336",
-    "https://qwen.ai/blog?id=qwen4-max"
+    "2611.17336",
+    "2611.21925",
+    "2611.21938",
+    "2611.22563",
+    "2611.22565",
+    "2611.21382"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
     "https://github.com/ghuntley/overalls",
     "https://github.com/ggml-org/llama.cpp",
-    "https://github.com/Tthanh2k6/turbo-browser-mcp"
+    "https://github.com/Tthanh2k6/turbo-browser-mcp",
+    "https://www.producthunt.com/products/assemblyai",
+    "https://www.producthunt.com/products/worldinmotion",
+    "https://www.producthunt.com/products/confidential-cloud",
+    "https://www.producthunt.com/products/ui-verify",
+    "https://www.producthunt.com/products/incredible"
   ],
   "interviews": [
-    "https://aiweekly.co/alerts/openai-ships-daybreak-red-team-and-defense-factory-agents",
-    "https://cryptobriefing.com/anthropic-dario-amodei-compute-dilemma/",
-    "https://www.youtube.com/shorts/SeGUXN8XIu8",
-    "https://www.youtube.com/shorts/7DO3mOl_OrI"
+    "SeGUXN8XIu8",
+    "7DO3mOl_OrI",
+    "-PQpJAdp7gw",
+    "bKKyiGSDAuI",
+    "0Hvs6-XODgU"
+  ],
+  "news": [
+    "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
+    "https://techcrunch.com/2026/11/18/sam-altman-warns-against-a-future-where-ai-not-humans-calls-the-shots/",
+    "https://techcrunch.com/2026/11/18/openai-ceo-sam-altman-says-its-hard-to-imagine-the-ai-industry-without-jensen/",
+    "https://www.theverge.com/ai-artificial-intelligence/1036549/nvidia-amd-earnings-fall-2026-chips-pause-frontier-models",
+    "https://huggingface.co/blog/ibm-research/time-series-powered-streamhouse"
   ]
 }
