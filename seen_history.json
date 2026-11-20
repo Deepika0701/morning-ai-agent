@@ -11,7 +11,12 @@
     "2611.19857",
     "2611.17048",
     "2611.15671",
-    "2611.23751"
+    "2611.23751",
+    "2611.25935",
+    "2611.26073",
+    "2611.25279",
+    "2611.26617",
+    "2611.26590"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -28,7 +33,12 @@
     "https://www.cncf.io/blog/2026/11/18/optimizing-kubernetes-admission-control-where-kyvernos-cel-admission-cost-actually-goes/",
     "https://simonwillison.net/2026/Nov/17/external-sandboxes-for-coding-agents/",
     "https://simonwillison.net/2026/Nov/17/gpt62-astra-and-sol/",
-    "https://www.producthunt.com/products/upsolve-ai"
+    "https://www.producthunt.com/products/upsolve-ai",
+    "https://www.producthunt.com/products/mailpipe-2",
+    "https://www.producthunt.com/products/interview-coach-3",
+    "https://simonwillison.net/2026/Nov/20/token-fraud-is-here-and-its-bad/",
+    "https://www.producthunt.com/products/fack-d",
+    "https://www.producthunt.com/products/threadlore"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -38,7 +48,10 @@
     "0Hvs6-XODgU",
     "o7D3wiHnU4k",
     "SyHM5hNPAEo",
-    "y1-9yeYLJUo"
+    "y1-9yeYLJUo",
+    "WqwJ4ustKjk",
+    "lwfewYL7X0o",
+    "v1X9Fqs5a14"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -51,7 +64,12 @@
     "https://supercite.ai/blog/ai-answers-change-every-day",
     "https://www.theverge.com/tech/1036729/disney-star-wars-anzellans-animatronic-amazon-aws-cloud-ai",
     "https://news.ycombinator.com/item?id=50549188",
-    "https://techcrunch.com/2026/11/18/satya-nadella-predicts-ai-agents-will-reshuffle-the-economics-of-the-web/"
+    "https://techcrunch.com/2026/11/18/satya-nadella-predicts-ai-agents-will-reshuffle-the-economics-of-the-web/",
+    "https://techcrunch.com/2026/11/19/apple-may-be-developing-its-own-ai-agent-that-runs-your-mac/",
+    "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
+    "https://www.theverge.com/tech/1038227/apple-ai-agent-engineer-job-listing",
+    "https://www.theverge.com/ai-artificial-intelligence/1038063/nvidia-stock-market-price-earnings",
+    "https://techcrunch.com/2026/11/19/metas-new-muse-charm-device-may-cost-300/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -59,6 +77,10 @@
     "https://www.stepsecurity.io/blog/microsoft-agent-framework-pypi-package-compromised",
     "https://www.stepsecurity.io/blog/optimjack-optimizely-hosted-scripts-crypto-clipper-card-skimmer",
     "https://www.stepsecurity.io/blog/wppconnect-compromised-malicious-releases-steal-secrets-and-whatsapp-sessions",
-    "https://www.stepsecurity.io/blog/new-stepsecurity-control-audit-github-fork-pr-workflow-approval-policies"
+    "https://www.stepsecurity.io/blog/new-stepsecurity-control-audit-github-fork-pr-workflow-approval-policies",
+    "https://www.stepsecurity.io/blog/cve-2026-123007-nginx-http2-rce",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-02",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-03",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-01"
   ]
 }
