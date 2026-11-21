@@ -16,7 +16,12 @@
     "2611.26073",
     "2611.25279",
     "2611.26617",
-    "2611.26590"
+    "2611.26590",
+    "2611.26232",
+    "2611.26239",
+    "2611.25604",
+    "2611.15941",
+    "2611.25200"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -38,7 +43,12 @@
     "https://www.producthunt.com/products/interview-coach-3",
     "https://simonwillison.net/2026/Nov/20/token-fraud-is-here-and-its-bad/",
     "https://www.producthunt.com/products/fack-d",
-    "https://www.producthunt.com/products/threadlore"
+    "https://www.producthunt.com/products/threadlore",
+    "https://clawvet.vercel.app/",
+    "https://huggingface.co/datasets/AegisSolis/aegis-solis-crosswalk-rc9-public-research",
+    "https://www.rmrfbench.com/",
+    "https://getsniffy.com/",
+    "https://github.com/Musset-App/musset"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -51,7 +61,10 @@
     "y1-9yeYLJUo",
     "WqwJ4ustKjk",
     "lwfewYL7X0o",
-    "v1X9Fqs5a14"
+    "v1X9Fqs5a14",
+    "Ru0l6G5oq7U",
+    "tgK-mPtgCCU",
+    "2hJkprFnzhY"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -69,7 +82,12 @@
     "https://techcrunch.com/2026/11/19/anthropics-7-founders-cashed-out-nearly-2b-in-record-breaking-ipo/",
     "https://www.theverge.com/tech/1038227/apple-ai-agent-engineer-job-listing",
     "https://www.theverge.com/ai-artificial-intelligence/1038063/nvidia-stock-market-price-earnings",
-    "https://techcrunch.com/2026/11/19/metas-new-muse-charm-device-may-cost-300/"
+    "https://techcrunch.com/2026/11/19/metas-new-muse-charm-device-may-cost-300/",
+    "http://ricapar.net/ClawDOS/",
+    "https://techcrunch.com/2026/11/20/daniel-ek-backs-ai-researchers-fusion-power-startup-heres-what-theyre-building/",
+    "https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/",
+    "https://www.theverge.com/policy/1038892/trump-foreign-data-centers-tax",
+    "https://techcrunch.com/2026/11/20/chips-can-survive-the-space-environment-can-their-financing/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -81,6 +99,10 @@
     "https://www.stepsecurity.io/blog/cve-2026-123007-nginx-http2-rce",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-02",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-03",
-    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-01"
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-323-01",
+    "https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+    "https://snyk.io/blog/why-harness-matters-evo-code-scanning-agent/",
+    "https://www.cisa.gov/news-events/alerts/2026/11/18/cisa-adds-four-known-exploited-vulnerabilities-catalog",
+    "https://www.stepsecurity.io/blog/harden-runner-brings-runtime-security-inside-kata-and-nitro-runner-pods"
   ]
 }
