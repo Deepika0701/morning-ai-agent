@@ -21,7 +21,12 @@
     "2611.26239",
     "2611.25604",
     "2611.15941",
-    "2611.25200"
+    "2611.25200",
+    "2611.26627",
+    "2611.23875",
+    "2611.21885",
+    "2611.21053",
+    "2611.25567"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -48,7 +53,12 @@
     "https://huggingface.co/datasets/AegisSolis/aegis-solis-crosswalk-rc9-public-research",
     "https://www.rmrfbench.com/",
     "https://getsniffy.com/",
-    "https://github.com/Musset-App/musset"
+    "https://github.com/Musset-App/musset",
+    "https://simonwillison.net/2026/Nov/21/muru/",
+    "https://www.producthunt.com/products/oovi",
+    "https://www.producthunt.com/products/resurf-2",
+    "https://www.producthunt.com/products/omi-cli",
+    "https://www.producthunt.com/products/stitch-loop"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -64,7 +74,10 @@
     "v1X9Fqs5a14",
     "Ru0l6G5oq7U",
     "tgK-mPtgCCU",
-    "2hJkprFnzhY"
+    "2hJkprFnzhY",
+    "7q5W1VNWkoY",
+    "VcxtV-OCF0Y",
+    "ZAzWPE9CItg"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -87,7 +100,12 @@
     "https://techcrunch.com/2026/11/20/daniel-ek-backs-ai-researchers-fusion-power-startup-heres-what-theyre-building/",
     "https://techcrunch.com/2026/11/20/ai-claimed-a-solution-to-the-167-year-old-riemann-hypothesis-and-a-human-did-too/",
     "https://www.theverge.com/policy/1038892/trump-foreign-data-centers-tax",
-    "https://techcrunch.com/2026/11/20/chips-can-survive-the-space-environment-can-their-financing/"
+    "https://techcrunch.com/2026/11/20/chips-can-survive-the-space-environment-can-their-financing/",
+    "https://techcrunch.com/2026/11/21/signal-restricts-mobile-screenshots-as-it-confronts-existential-threat-of-ai-surveillance/",
+    "https://techcrunch.com/2026/11/21/a-tale-of-two-nvidias/",
+    "https://www.theverge.com/tech/1039554/un-regulations-killer-robots",
+    "https://techcrunch.com/2026/11/21/all-the-ai-agents-that-can-live-in-your-text-messages/",
+    "https://techcrunch.com/2026/11/21/is-selling-an-ai-version-of-your-face-to-this-microdrama-startup-the-future-of-hollywood/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -103,6 +121,10 @@
     "https://www.cisa.gov/news-events/alerts/2026/11/20/cisa-adds-four-known-exploited-vulnerabilities-catalog",
     "https://snyk.io/blog/why-harness-matters-evo-code-scanning-agent/",
     "https://www.cisa.gov/news-events/alerts/2026/11/18/cisa-adds-four-known-exploited-vulnerabilities-catalog",
-    "https://www.stepsecurity.io/blog/harden-runner-brings-runtime-security-inside-kata-and-nitro-runner-pods"
+    "https://www.stepsecurity.io/blog/harden-runner-brings-runtime-security-inside-kata-and-nitro-runner-pods",
+    "https://www.stepsecurity.io/blog/accurasofthire-fake-interview-developer-machines",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-10",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-01",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05"
   ]
 }
