@@ -1,0 +1,54 @@
+name: Morning AI Engineering Briefing v3
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 0 * * *' # 06:00 IST
+
+permissions:
+  contents: write
+
+concurrency:
+  group: morning-ai-digest
+  cancel-in-progress: false
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Check syntax
+        run: python -m py_compile run_digest.py run_digest_v3.py
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+      - name: Run and email briefing
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          TIMEZONE: Asia/Kolkata
+          ENABLE_YOUTUBE_TRANSCRIPTS: 'false'
+          GEMINI_MODEL: gemini-2.5-flash-lite
+          GROQ_MODEL: openai/gpt-oss-20b
+        run: python run_digest_v3.py
+      - name: Commit history if changed
+        run: |
+          if git diff --quiet -- seen_history.json; then
+            echo 'No history change to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add seen_history.json
+          git commit -m 'Update morning digest processed history'
+          git push
