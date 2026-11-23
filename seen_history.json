@@ -26,7 +26,12 @@
     "2611.23875",
     "2611.21885",
     "2611.21053",
-    "2611.25567"
+    "2611.25567",
+    "2611.22479",
+    "2611.25252",
+    "2611.19247",
+    "2611.22495",
+    "2611.24025"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -58,7 +63,12 @@
     "https://www.producthunt.com/products/oovi",
     "https://www.producthunt.com/products/resurf-2",
     "https://www.producthunt.com/products/omi-cli",
-    "https://www.producthunt.com/products/stitch-loop"
+    "https://www.producthunt.com/products/stitch-loop",
+    "https://www.producthunt.com/products/tinker-2",
+    "https://www.producthunt.com/products/ashwa",
+    "https://simonwillison.net/2026/Nov/22/select-styling/",
+    "https://www.producthunt.com/products/replit",
+    "https://www.producthunt.com/products/mobile-agent-testers"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -77,7 +87,8 @@
     "2hJkprFnzhY",
     "7q5W1VNWkoY",
     "VcxtV-OCF0Y",
-    "ZAzWPE9CItg"
+    "ZAzWPE9CItg",
+    "FGCP2F_7rQk"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -105,7 +116,12 @@
     "https://techcrunch.com/2026/11/21/a-tale-of-two-nvidias/",
     "https://www.theverge.com/tech/1039554/un-regulations-killer-robots",
     "https://techcrunch.com/2026/11/21/all-the-ai-agents-that-can-live-in-your-text-messages/",
-    "https://techcrunch.com/2026/11/21/is-selling-an-ai-version-of-your-face-to-this-microdrama-startup-the-future-of-hollywood/"
+    "https://techcrunch.com/2026/11/21/is-selling-an-ai-version-of-your-face-to-this-microdrama-startup-the-future-of-hollywood/",
+    "https://www.theverge.com/ai-artificial-intelligence/1039874/walmart-agent-gateway-meta-muse-black-friday",
+    "https://techcrunch.com/2026/11/22/how-notable-capital-gic-and-baillie-gifford-bet-big-on-anthropic-before-its-ipo/",
+    "https://www.theverge.com/tech/1039851/major-tech-outages",
+    "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/",
+    "https://techcrunch.com/2026/11/22/why-data-centers-are-at-the-center-of-the-big-tech-backlash/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -125,6 +141,10 @@
     "https://www.stepsecurity.io/blog/accurasofthire-fake-interview-developer-machines",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-10",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-01",
-    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05"
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-02",
+    "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06"
   ]
 }
