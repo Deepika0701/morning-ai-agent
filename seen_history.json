@@ -31,7 +31,12 @@
     "2611.25252",
     "2611.19247",
     "2611.22495",
-    "2611.24025"
+    "2611.24025",
+    "2611.31198",
+    "2611.30495",
+    "2611.12164",
+    "2611.28489",
+    "2611.18639"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -68,7 +73,12 @@
     "https://www.producthunt.com/products/ashwa",
     "https://simonwillison.net/2026/Nov/22/select-styling/",
     "https://www.producthunt.com/products/replit",
-    "https://www.producthunt.com/products/mobile-agent-testers"
+    "https://www.producthunt.com/products/mobile-agent-testers",
+    "https://www.producthunt.com/products/agenda-hero-magic",
+    "https://simonwillison.net/2026/Nov/24/datasette-charts/",
+    "https://simonwillison.net/2026/Nov/24/datasette-agent/",
+    "https://www.producthunt.com/products/pinned",
+    "https://simonwillison.net/2026/Nov/23/glm-54/"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -88,7 +98,8 @@
     "7q5W1VNWkoY",
     "VcxtV-OCF0Y",
     "ZAzWPE9CItg",
-    "FGCP2F_7rQk"
+    "FGCP2F_7rQk",
+    "QAE9nRTHtas"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -121,7 +132,12 @@
     "https://techcrunch.com/2026/11/22/how-notable-capital-gic-and-baillie-gifford-bet-big-on-anthropic-before-its-ipo/",
     "https://www.theverge.com/tech/1039851/major-tech-outages",
     "https://techcrunch.com/2026/11/22/openais-chief-scientist-has-thoughts-on-how-to-limit-ai-development/",
-    "https://techcrunch.com/2026/11/22/why-data-centers-are-at-the-center-of-the-big-tech-backlash/"
+    "https://techcrunch.com/2026/11/22/why-data-centers-are-at-the-center-of-the-big-tech-backlash/",
+    "https://www.theverge.com/ai-artificial-intelligence/1040652/jensen-huang-nvidia-trump-reinstated",
+    "https://www.theverge.com/ai-artificial-intelligence/1030422/nvidia-jensen-huang-ai-china-alice-huang",
+    "https://www.theverge.com/ai-artificial-intelligence/1040819/welcome-to-elite-impunity-jensen-huang",
+    "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/",
+    "https://techcrunch.com/2026/11/23/supertake-raises-20m-to-let-ai-agents-turn-your-market-predictions-into-stock-portfolios/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -145,6 +161,7 @@
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-02",
     "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04",
-    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06"
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06",
+    "https://www.cisa.gov/news-events/alerts/2026/11/23/cisa-adds-two-known-exploited-vulnerabilities-catalog"
   ]
 }
