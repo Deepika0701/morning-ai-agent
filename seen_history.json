@@ -36,7 +36,12 @@
     "2611.30495",
     "2611.12164",
     "2611.28489",
-    "2611.18639"
+    "2611.18639",
+    "2611.32649",
+    "2611.31129",
+    "2611.32918",
+    "2611.31258",
+    "2611.30963"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -78,7 +83,12 @@
     "https://simonwillison.net/2026/Nov/24/datasette-charts/",
     "https://simonwillison.net/2026/Nov/24/datasette-agent/",
     "https://www.producthunt.com/products/pinned",
-    "https://simonwillison.net/2026/Nov/23/glm-54/"
+    "https://simonwillison.net/2026/Nov/23/glm-54/",
+    "https://github.com/mr0b0t0/plinth",
+    "https://github.com/woxlo1/agent-debugger",
+    "https://lightscale.ai/",
+    "https://github.com/usehm/hm",
+    "https://github.com/taipei49314/checkwash"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -99,7 +109,10 @@
     "VcxtV-OCF0Y",
     "ZAzWPE9CItg",
     "FGCP2F_7rQk",
-    "QAE9nRTHtas"
+    "QAE9nRTHtas",
+    "Em6tbhj9o6A",
+    "K42jlW-THdo",
+    "-ieJwYq4j-o"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -137,7 +150,12 @@
     "https://www.theverge.com/ai-artificial-intelligence/1030422/nvidia-jensen-huang-ai-china-alice-huang",
     "https://www.theverge.com/ai-artificial-intelligence/1040819/welcome-to-elite-impunity-jensen-huang",
     "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/",
-    "https://techcrunch.com/2026/11/23/supertake-raises-20m-to-let-ai-agents-turn-your-market-predictions-into-stock-portfolios/"
+    "https://techcrunch.com/2026/11/23/supertake-raises-20m-to-let-ai-agents-turn-your-market-predictions-into-stock-portfolios/",
+    "https://huggingface.co/blog/ibm-research/an-indic-voice-agent-with-cuga",
+    "https://techcrunch.com/2026/11/24/yales-sonnenfeld-nvidia-is-a-detriment-to-u-s-industrial-might-not-a-champion/",
+    "https://techcrunch.com/2026/11/24/jensen-huang-still-thinks-a-succession-plan-creates-unnecessary-hierarchy/",
+    "https://techcrunch.com/2026/11/24/in-all-hands-meeting-jensen-huang-thanks-white-house-and-says-hes-in-therapy/",
+    "https://techcrunch.com/2026/11/24/even-the-best-ai-agents-struggle-with-everyday-life/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -162,6 +180,10 @@
     "https://www.cisa.gov/news-events/alerts/2026/11/17/critical-java-vulnerability-requires-immediate-patching",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06",
-    "https://www.cisa.gov/news-events/alerts/2026/11/23/cisa-adds-two-known-exploited-vulnerabilities-catalog"
+    "https://www.cisa.gov/news-events/alerts/2026/11/23/cisa-adds-two-known-exploited-vulnerabilities-catalog",
+    "https://www.cisa.gov/news-events/alerts/2026/11/24/cisa-adds-three-known-exploited-vulnerabilities-catalog",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-03",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-02",
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-01"
   ]
 }
