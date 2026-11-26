@@ -41,7 +41,12 @@
     "2611.31129",
     "2611.32918",
     "2611.31258",
-    "2611.30963"
+    "2611.30963",
+    "2611.32938",
+    "2611.21056",
+    "2611.34147",
+    "2611.32786",
+    "2611.33307"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -88,7 +93,12 @@
     "https://github.com/woxlo1/agent-debugger",
     "https://lightscale.ai/",
     "https://github.com/usehm/hm",
-    "https://github.com/taipei49314/checkwash"
+    "https://github.com/taipei49314/checkwash",
+    "https://www.producthunt.com/products/claude-mem",
+    "https://simonwillison.net/2026/Nov/26/sqlite3-rsync/",
+    "https://www.producthunt.com/products/superframes-ai-video-editor",
+    "https://www.producthunt.com/products/pydantic",
+    "https://www.producthunt.com/products/doodle-5"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -112,7 +122,10 @@
     "QAE9nRTHtas",
     "Em6tbhj9o6A",
     "K42jlW-THdo",
-    "-ieJwYq4j-o"
+    "-ieJwYq4j-o",
+    "Ws4dO4_VsRc",
+    "FnUbbDokYlk",
+    "8gOkTwEHTP8"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -155,7 +168,12 @@
     "https://techcrunch.com/2026/11/24/yales-sonnenfeld-nvidia-is-a-detriment-to-u-s-industrial-might-not-a-champion/",
     "https://techcrunch.com/2026/11/24/jensen-huang-still-thinks-a-succession-plan-creates-unnecessary-hierarchy/",
     "https://techcrunch.com/2026/11/24/in-all-hands-meeting-jensen-huang-thanks-white-house-and-says-hes-in-therapy/",
-    "https://techcrunch.com/2026/11/24/even-the-best-ai-agents-struggle-with-everyday-life/"
+    "https://techcrunch.com/2026/11/24/even-the-best-ai-agents-struggle-with-everyday-life/",
+    "https://www.theverge.com/policy/1042620/character-ai-sale-state-ags-block-selling-users-chats",
+    "https://techstackups.com/articles/google-workspace-ai-agents-mcp/",
+    "https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin",
+    "https://techcrunch.com/2026/11/25/sp-considers-nvidia-credit-downgrade-over-governance-and-key-man-risks/",
+    "https://www.theverge.com/entertainment/1042221/google-my-channel-ai-video-patent"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -184,6 +202,10 @@
     "https://www.cisa.gov/news-events/alerts/2026/11/24/cisa-adds-three-known-exploited-vulnerabilities-catalog",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-03",
     "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-02",
-    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-01"
+    "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-01",
+    "https://www.stepsecurity.io/blog/fail2install-cve-2026-132165",
+    "https://www.stepsecurity.io/blog/polinrider-malware-open-source-pull-requests",
+    "https://www.cisa.gov/news-events/alerts/2026/11/25/cisa-adds-10-known-exploited-vulnerabilities-catalog",
+    "https://snyk.io/blog/secure-ai-coding-agents-nvidia-openshell/"
   ]
 }
