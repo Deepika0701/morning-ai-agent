@@ -46,7 +46,12 @@
     "2611.21056",
     "2611.34147",
     "2611.32786",
-    "2611.33307"
+    "2611.33307",
+    "2611.31516",
+    "2611.31155",
+    "2611.31491",
+    "2611.28849",
+    "2611.31619"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -98,7 +103,12 @@
     "https://simonwillison.net/2026/Nov/26/sqlite3-rsync/",
     "https://www.producthunt.com/products/superframes-ai-video-editor",
     "https://www.producthunt.com/products/pydantic",
-    "https://www.producthunt.com/products/doodle-5"
+    "https://www.producthunt.com/products/doodle-5",
+    "https://slashanywhere.com",
+    "https://github.com/tony-stark2025/piton",
+    "https://github.com/404kidwiz/antigravity-action-launchpad",
+    "https://github.com/SmartMobileHouse/clinical-trial-decision-lab",
+    "https://alexchen-imgbot-sales.containers.snapdeploy.app/"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -125,7 +135,9 @@
     "-ieJwYq4j-o",
     "Ws4dO4_VsRc",
     "FnUbbDokYlk",
-    "8gOkTwEHTP8"
+    "8gOkTwEHTP8",
+    "WNHac8LYzKQ",
+    "ufvSPf329pA"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -173,7 +185,12 @@
     "https://techstackups.com/articles/google-workspace-ai-agents-mcp/",
     "https://huggingface.co/blog/nvidia/building-on-nemotron-35-parse-open-data-fine-tunin",
     "https://techcrunch.com/2026/11/25/sp-considers-nvidia-credit-downgrade-over-governance-and-key-man-risks/",
-    "https://www.theverge.com/entertainment/1042221/google-my-channel-ai-video-patent"
+    "https://www.theverge.com/entertainment/1042221/google-my-channel-ai-video-patent",
+    "https://www.thetimes.com/uk/technology-uk/article/ai-making-online-security-useless-smr73d3n8",
+    "https://construct22.com/",
+    "https://janlukas.blog/posts/ai-self-hosting",
+    "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
+    "https://techcrunch.com/2026/11/26/as-anthropic-ipos-grand-theft-auto-vi-proves-why-efficiency-isnt-a-virtue/"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
