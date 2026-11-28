@@ -51,7 +51,12 @@
     "2611.31155",
     "2611.31491",
     "2611.28849",
-    "2611.31619"
+    "2611.31619",
+    "2611.33885",
+    "2611.30025",
+    "2611.30723",
+    "2611.27112",
+    "2611.30494"
   ],
   "tools": [
     "https://github.com/openai/codex-security",
@@ -108,7 +113,12 @@
     "https://github.com/tony-stark2025/piton",
     "https://github.com/404kidwiz/antigravity-action-launchpad",
     "https://github.com/SmartMobileHouse/clinical-trial-decision-lab",
-    "https://alexchen-imgbot-sales.containers.snapdeploy.app/"
+    "https://alexchen-imgbot-sales.containers.snapdeploy.app/",
+    "https://simonwillison.net/2026/Nov/27/datasette-charts/",
+    "https://www.producthunt.com/products/opencrawl",
+    "https://www.producthunt.com/products/stacktrace",
+    "https://www.producthunt.com/products/rankthesearch",
+    "https://www.producthunt.com/products/wender"
   ],
   "interviews": [
     "SeGUXN8XIu8",
@@ -137,7 +147,9 @@
     "FnUbbDokYlk",
     "8gOkTwEHTP8",
     "WNHac8LYzKQ",
-    "ufvSPf329pA"
+    "ufvSPf329pA",
+    "7YLqyt5lCXg",
+    "TbKkN1cesTo"
   ],
   "news": [
     "https://techcrunch.com/2026/11/18/more-banks-says-customers-using-ai-agents-are-on-their-own-even-if-they-get-hacked/",
@@ -190,7 +202,11 @@
     "https://construct22.com/",
     "https://janlukas.blog/posts/ai-self-hosting",
     "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
-    "https://techcrunch.com/2026/11/26/as-anthropic-ipos-grand-theft-auto-vi-proves-why-efficiency-isnt-a-virtue/"
+    "https://techcrunch.com/2026/11/26/as-anthropic-ipos-grand-theft-auto-vi-proves-why-efficiency-isnt-a-virtue/",
+    "https://fleetlayer.ai/",
+    "https://sessiongraph.ai/",
+    "https://github.com/skeeto/prospero",
+    "https://www.theverge.com/tech/1041801/android-intelligence-create-my-widget-gemini"
   ],
   "security": [
     "https://www.stepsecurity.io/blog/stepsecurity-20-million-series-a",
@@ -223,6 +239,7 @@
     "https://www.stepsecurity.io/blog/fail2install-cve-2026-132165",
     "https://www.stepsecurity.io/blog/polinrider-malware-open-source-pull-requests",
     "https://www.cisa.gov/news-events/alerts/2026/11/25/cisa-adds-10-known-exploited-vulnerabilities-catalog",
-    "https://snyk.io/blog/secure-ai-coding-agents-nvidia-openshell/"
+    "https://snyk.io/blog/secure-ai-coding-agents-nvidia-openshell/",
+    "https://www.cisa.gov/news-events/alerts/2026/11/27/cisa-adds-three-known-exploited-vulnerabilities-catalog"
   ]
 }
